@@ -6,16 +6,24 @@ public class PlayerMovement : MonoBehaviour
 {
 
     private Rigidbody2D rb;
+    private BoxCollider2D coll;
     private SpriteRenderer rbSprite;
-
     private Animator anim;
 
+    [SerializeField] private LayerMask jumpableGround;
+
     private float dirX = 0f;
+
+    [SerializeField] private float moveSpeed = 7f;
+    [SerializeField] private float jumpForce = 14f;
+
+    private enum MovementState { IDLE, RUNNING, JUMPING, FALLING }
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        coll = GetComponent<BoxCollider2D>();
         rbSprite = rb.GetComponent<SpriteRenderer>();
         anim = rb.GetComponent<Animator>();
     }
@@ -25,31 +33,50 @@ public class PlayerMovement : MonoBehaviour
     {
         dirX = Input.GetAxisRaw("Horizontal");
 
-        rb.velocity = new Vector2 (dirX * 7f, rb.velocity.y);
+        rb.velocity = new Vector2 (dirX * moveSpeed, rb.velocity.y);
 
-        if (Input.GetButtonDown("Jump") || Input.GetButtonDown("JumpUp") || Input.GetButtonDown("JumpArrowUp"))
+        if ((Input.GetButtonDown("Jump") || Input.GetButtonDown("JumpUp") || Input.GetButtonDown("JumpArrowUp")) && IsGrounded())
         {
-            rb.velocity = new Vector2(rb.velocity.x, 14f);
+            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
         }
 
-        UpdateAnimationUpdate();
+
+        UpdateAnimationState();
     }
 
-    private void UpdateAnimationUpdate()
+    private void UpdateAnimationState()
     {
+        MovementState state;
+
         if (dirX > 0f)
         {
-            anim.SetBool("isRunning", true);
+            state = MovementState.RUNNING;
             rbSprite.flipX = false;
         }
         else if(dirX < 0f)
         {
-            anim.SetBool("isRunning", true);
+            state = MovementState.RUNNING;
             rbSprite.flipX = true;
         }
         else
         {
-            anim.SetBool("isRunning", false);
+            state = MovementState.IDLE;
         }
+
+        if(rb.velocity.y > .1f)
+        {
+            state = MovementState.JUMPING;
+        }
+        else if(rb.velocity.y < -.1f)
+        {
+            state = MovementState.FALLING;
+        }
+
+        anim.SetInteger("state", (int)state);
+    }
+
+    private bool IsGrounded()
+    {
+        return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, .1f, jumpableGround);
     }
 }
