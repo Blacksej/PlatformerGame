@@ -8,11 +8,13 @@ public class ItemCollector : MonoBehaviour
     private int gemCount = 0;
 
     [SerializeField] private Text gemText;
+    [SerializeField] private AudioSource collectionSoundEffect;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Gem"))
         {
+            collectionSoundEffect.Play();
             Destroy(collision.gameObject);
             gemCount++;
             gemText.text = "Gems: " + gemCount;
