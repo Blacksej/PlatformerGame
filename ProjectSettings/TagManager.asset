@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Gem
   - Trap
+  - WinZaphire
+  - Checkpoint
   layers:
   - Default
   - TransparentFX

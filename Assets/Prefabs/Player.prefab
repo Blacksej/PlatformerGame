@@ -204,7 +204,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 281cf9cdaf5919647a7171608225880d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  checkpointText: {fileID: 46183259998450892, guid: 00f8c0dd5dd647f45b679237cd402f61, type: 3}
+  livesText: {fileID: 8246381376594973419, guid: 217adce689910bb44bf36f0876656074, type: 3}
   deathSoundEffect: {fileID: 9000809842155377348}
+  lives: 3
 --- !u!82 &9000809842155377350
 AudioSource:
   m_ObjectHideFlags: 0
