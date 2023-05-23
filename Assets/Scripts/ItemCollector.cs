@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class ItemCollector : MonoBehaviour
 {
-    private int gemCount = 0;
+    public int gemCount = 0;
 
     [SerializeField] private Text gemText;
     [SerializeField] private AudioSource collectionSoundEffect;

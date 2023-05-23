@@ -16,7 +16,8 @@ public class FollowPlayer : MonoBehaviour
 
     private void FixedUpdate()
     {
-        playerPosition = new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z -10);
+        playerPosition = new Vector3(player.transform.position.x, player.transform.position.y + 1, player.transform.position.z -30);
+
 
         if(!player.GetComponent<SpriteRenderer>().flipX)
         {
